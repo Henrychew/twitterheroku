@@ -33,7 +33,13 @@ Dir[APP_ROOT.join('app', 'helpers', '*.rb')].each { |file| require file }
 # Set up the database and models
 require APP_ROOT.join('config', 'database')
 
-API_KEYS = YAML::load(File.open('config/token.yaml'))
+if Sinatra::Base.development?
+  API_KEYS = YAML::load(File.open('config/token.yaml'))
+else
+  API_KEYS = {}
+  API_KEYS = ENV["twitter_consumer_key_id"]
+  API_KEYS = ENV["twitter_consumer_secret_key_id"]
+end
 
 # # http://www.rubydoc.info/gems/twitter
 
