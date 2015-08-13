@@ -37,8 +37,8 @@ if Sinatra::Base.development?
   API_KEYS = YAML::load(File.open('config/token.yaml'))
 else
   API_KEYS = {}
-  API_KEYS = ENV["twitter_consumer_key_id"]
-  API_KEYS = ENV["twitter_consumer_secret_key_id"]
+  API_KEYS["twitter_consumer_key_id"] = ENV["twitter_consumer_key_id"]
+  API_KEYS["twitter_consumer_secret_key_id"] = ENV["twitter_consumer_secret_key_id"]
 end
 
 # # http://www.rubydoc.info/gems/twitter
