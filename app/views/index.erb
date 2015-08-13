@@ -1,0 +1,53 @@
+
+<div class="container">
+    <form action="/tweets" method="post">
+
+      <input id="123" type="text" placeholder="Your gossips" name="tweet[text]">
+
+      <input id="button" type="submit" value="Send tweets! <3">
+    </form>
+    <div style="display: none;" id="loading"><h1>Loading</h1></div>
+    <% if @tweets %>
+      <div id="post">
+        <% @tweets.each do |x| %>
+          <p><%= x.text %></p>
+        <% end %>
+
+      </div>
+    <% end%>
+
+    <a href="/auth/twitter">Login via twitter</a>
+</div>
+
+
+<script>
+
+$(document).ready(function(){
+    $("form").submit(function(e){
+       e.preventDefault();
+      $('#123').prop('disabled', true);
+      $("#loading").show();
+
+      var data = $('#123').val();
+
+    $.ajax({
+      method: "POST",
+      url: "/tweets",
+      data: { tweet: data },
+      // dataType: "json"
+      })
+      .done(function(msg){
+        var obj = jQuery.parseJSON(msg)
+
+        $("#post").prepend("<p>" + obj.text + "</p>");
+        $("#loading").hide();
+        $('#123').prop('disabled', false);
+      });
+
+
+
+  })
+})
+
+
+</script>
